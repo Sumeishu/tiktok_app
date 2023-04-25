@@ -34,7 +34,7 @@ const VideoCard: NextPage<IPorps> = ({post}) => {
         <div className="md:w-16 md:h-16 w-10 h-10">
             <Link href="/">
                 <>
-                    <Image
+                    <img
                         width={62}
                         height={62}
                         className="rounded-full"
@@ -61,7 +61,7 @@ const VideoCard: NextPage<IPorps> = ({post}) => {
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
           className="rounded-3xl">
-          <Link href='/'>
+          <Link href={`/detail/${post._id}`}>
             <video
               src={post.video.asset.url}
               loop
