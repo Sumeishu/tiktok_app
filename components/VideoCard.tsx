@@ -28,6 +28,13 @@ const VideoCard: NextPage<IPorps> = ({post}) => {
         setPlaying(true)
       }
     }
+
+    useEffect(() => {
+      if(videoRef?.current){
+        videoRef.current.muted = isVideoMuted
+      }
+    },[isVideoMuted])
+
   return (
     <div className='flex flex-col border-b-2 border-gary-200 pb-6'>
       <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">

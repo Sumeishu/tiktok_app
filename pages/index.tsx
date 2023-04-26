@@ -2,6 +2,7 @@ import axios from 'axios'
 import {Video} from '../types'
 import VideoCard from '@/components/VideoCard'
 import NoResults from '@/components/NoResults'
+import { BASE_URL } from '@/utils'
 
 
 interface IPorps{
@@ -23,7 +24,7 @@ const  Home = ({videos}: IPorps) => {
 
 
 export const getServerSideProps = async () => {
-  const {data} = await axios.get(`http://localhost:3000/api/post`)
+  const {data} = await axios.get(`${BASE_URL}/api/post`)
   // console.log(response.data.name)
   return {
     props:{
