@@ -20,6 +20,10 @@ const Detail = ({postDetails}:IPorps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
   const [isVideoMuted, setIsVideoMuted] = useState(false)
+  const [comment, setComment] = useState('')
+  const [isPostingComment, setIsPostingComment] = useState(false)
+
+
 
   const router = useRouter()
   const {userProfile}:any = useAuthStore()
@@ -49,12 +53,30 @@ const Detail = ({postDetails}:IPorps) => {
       setPost({...post, likes:data.likes})
     }
   }
+
+  const addCommet = async (e:any) =>{
+    e.preventDefault()
+
+    if(userProfile && comment){
+      setIsPostingComment(true)
+
+      const {data} = await axios.put(`${BASE_URL}/api/post/
+      ${post._id}`,{
+        userId: userProfile._id,
+        comment
+      })
+
+      setPost({...post, comments:data.comments})
+      setComment('')
+      setIsPostingComment(false)
+    }
+  }
   
 
   if(!post) return null 
   return (
     <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
-      <div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-center bg-black">
+      <div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center  bg-no-repeat bg-center bg-black">
         <div className="opacity-90 absolute top-6 left-2 lg:left-6 flex gap-6 z-50">
           <p className='cursor-pointer' onClick={()=>router.back()}>
             <MdOutlineCancel className='text-white text-[35px]'/>
@@ -132,7 +154,13 @@ const Detail = ({postDetails}:IPorps) => {
             />
           )}
         </div>
-        <Comments />   
+        <Comments
+          comment = {comment}
+          setComment={setComment}
+          addCommet={addCommet}
+          comments={post.comments}
+          isPostingComment={isPostingComment}
+        />   
       </div>
     </div>
   )
